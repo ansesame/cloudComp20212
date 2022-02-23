@@ -1,0 +1,6 @@
+kaggle
+pandas
+plotly
+dash
+gunicorn
+psycopg2

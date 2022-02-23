@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    container_name: dash_db
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=deteccion_temprana
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+  web:
+    build: .
+    container_name: dash_dash
+    image: ansesame/proyecto3_web
+    command: bash -c "
+        python3 cargarDatos.py
+        && gunicorn --workers 1 --log-level=debug --timeout 60 --bind :80 app:server
+        "
+    volumes:
+      - .:/code
+    ports:
+      - "80:80"
+    depends_on:
+      - db
